@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import { SITE, url } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: 'home' | 'writing' | 'about';
+  type?: 'website' | 'article';
+}
+
+const { title, description = SITE.description, current, type = 'website' } = Astro.props;
+const fullTitle = title ? `${title} | ${SITE.name}` : `${SITE.name} | ${SITE.title}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name}: writing`} href={url('/rss.xml')} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title ?? SITE.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(url('/og.jpg'), Astro.site)} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap bar">
+        <a class="brand" href={url('/')} aria-current={current === 'home' ? 'page' : undefined}>Lamine Lahouasnia</a>
+        <nav aria-label="Main">
+          <a href={url('/writing/')} aria-current={current === 'writing' ? 'page' : undefined}>Writing</a>
+          <a href={url('/about/')} aria-current={current === 'about' ? 'page' : undefined}>About</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap foot">
+        <p>© {year} Lamine Lahouasnia. Views are my own.</p>
+        <p class="links">
+          <a href={SITE.linkedin}>LinkedIn</a>
+          <a href={url('/rss.xml')}>RSS feed</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    font-family: var(--sans);
+  }
+  .bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.25rem;
+  }
+  .brand {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 1.05rem;
+  }
+  nav { display: flex; gap: 1.5rem; }
+  nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  nav a:hover, nav a[aria-current='page'] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.35em;
+  }
+  .brand:hover { color: var(--ink); text-decoration: none; }
+
+  .site-footer {
+    margin-top: clamp(4rem, 10vw, 7rem);
+    border-top: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+  }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding-block: 1.75rem 2.5rem;
+  }
+  .foot p { margin: 0; }
+  .links { display: flex; gap: 1.25rem; }
+  .links a { color: var(--ink-soft); }
+</style>
