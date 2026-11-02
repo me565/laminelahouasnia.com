@@ -18,9 +18,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Temporary GitHub Pages address until the custom domain is connected.
-      SITE_URL: https://me565.github.io
-      BASE_PATH: /laminelahouasnia.com
+      SITE_URL: https://laminelahouasnia.com
+      BASE_PATH: /
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
