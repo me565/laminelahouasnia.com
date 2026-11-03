@@ -1,0 +1,6 @@
+# Search engines and AI tools are welcome to read and cite this site,
+# including for training. Lamine chose to allow both (Nov 2026).
+User-agent: *
+Allow: /
+
+Sitemap: https://laminelahouasnia.com/sitemap-index.xml

@@ -13,10 +13,38 @@ export async function getStaticPaths() {
 
 const { post, newer, older } = Astro.props;
 const { Content } = await render(post);
-const minutes = Math.max(1, Math.round((post.body ?? '').split(/\s+/).length / 230));
+const words = (post.body ?? '').split(/\s+/).length;
+const minutes = Math.max(1, Math.round(words / 230));
+const site = Astro.site!;
+const pageUrl = new URL(url(`/writing/${post.id}/`), site).href;
+const articleSchema = {
+  '@type': 'BlogPosting',
+  '@id': `${pageUrl}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  url: pageUrl,
+  mainEntityOfPage: pageUrl,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: post.data.pubDate.toISOString(),
+  image: new URL(url(`/og/${post.id}.png`), site).href,
+  wordCount: words,
+  inLanguage: 'en-GB',
+  author: { '@id': new URL('/#person', site).href },
+  publisher: { '@id': new URL('/#person', site).href },
+  isPartOf: { '@id': new URL('/#website', site).href },
+  ...(post.data.originalUrl && { sameAs: post.data.originalUrl }),
+};
 ---
 
-<Base title={post.data.title} description={post.data.description} current="writing" type="article">
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  current="writing"
+  type="article"
+  image={`/og/${post.id}.png`}
+  published={post.data.pubDate}
+  schema={[articleSchema]}
+>
   <article class="wrap page">
     <header class="head">
       <p class="meta">

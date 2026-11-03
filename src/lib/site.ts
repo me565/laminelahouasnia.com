@@ -6,7 +6,30 @@ export const SITE = {
   description:
     'Lamine Lahouasnia leads Gen AI at Euromonitor International in Singapore, and writes about building AI that market researchers can trust.',
   linkedin: 'https://www.linkedin.com/in/laminelahouasnia',
+  euromonitor: 'https://www.euromonitor.com/people/country-managers/lamine-lahouasnia',
+
+  // Fill these in once the accounts exist; leave empty to switch off.
+  goatcounter: '', // e.g. 'lamine' for https://lamine.goatcounter.com
+  googleVerification: '', // Search Console "HTML tag" content value
+  bingVerification: '', // Bing Webmaster "HTML meta tag" content value
 };
+
+/** The schema.org Person who is the site's subject and every article's author. */
+export function personSchema(siteUrl: URL) {
+  return {
+    '@type': 'Person',
+    '@id': new URL('/#person', siteUrl).href,
+    name: SITE.name,
+    url: new URL('/', siteUrl).href,
+    image: new URL('/og/profile.png', siteUrl).href,
+    jobTitle: 'Director of Gen AI',
+    worksFor: { '@type': 'Organization', name: 'Euromonitor International', url: 'https://www.euromonitor.com' },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: 'SOAS, University of London' },
+    knowsLanguage: ['English', 'Mandarin Chinese'],
+    knowsAbout: ['Gen AI', 'Market research', 'AI agents', 'Retrieval-augmented generation', 'Data governance'],
+    sameAs: [SITE.linkedin, SITE.euromonitor],
+  };
+}
 
 /** Prefix an internal path with the site's base path. */
 export function url(path = '/') {

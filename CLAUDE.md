@@ -26,6 +26,13 @@ Lamine Lahouasnia's personal website: a home page, an About (bio) page and a blo
 
 If a new piece introduces a named idea, consider adding it to `LEXICON` in `src/lib/site.ts` (the "Ideas I've named" list on the home page).
 
+## Search, sharing and analytics
+
+- Every page carries schema.org structured data: a Person (Lamine, `personSchema` in `src/lib/site.ts`) and the WebSite; articles add a BlogPosting authored by him. Keep the Person's job title and `sameAs` links current.
+- Share images (1200x630) are drawn at build time by `src/lib/og.ts` and served from `/og/<slug>.png`; the home and About pages use `/og/profile.png`.
+- `public/robots.txt` allows all crawlers, AI training included (his decision, Nov 2026). `/llms.txt` is generated from the articles and the named-ideas list.
+- Analytics (GoatCounter) and Search Console / Bing verification switch on by filling `goatcounter`, `googleVerification` and `bingVerification` in `SITE` (`src/lib/site.ts`).
+
 ## Domain
 
 - Custom domain: `public/CNAME` holds `laminelahouasnia.com`. DNS is at Squarespace (formerly Google Domains).
