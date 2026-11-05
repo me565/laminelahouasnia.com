@@ -9,7 +9,7 @@ export const SITE = {
   euromonitor: 'https://www.euromonitor.com/people/country-managers/lamine-lahouasnia',
 
   // Fill these in once the accounts exist; leave empty to switch off.
-  goatcounter: '', // e.g. 'lamine' for https://lamine.goatcounter.com
+  goatcounter: 'laminelahouasnia', // e.g. 'lamine' for https://lamine.goatcounter.com
   googleVerification: '', // Search Console "HTML tag" content value
   bingVerification: '', // Bing Webmaster "HTML meta tag" content value
 };
